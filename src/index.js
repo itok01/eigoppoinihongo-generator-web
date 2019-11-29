@@ -1,15 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import qs from 'qs';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
 const apiServer = "https://api.enja.itok01.com";
 const apiSpeech = apiServer + "/speech";
 
-class Form extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: '' };
+
+    let query = qs.parse(window.location.search.substr(1));
+    this.state = { value: query["text"], source: apiSpeech + "?text=" + query["text"] };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,7 +34,7 @@ class Form extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="app">
         <form onSubmit={this.handleSubmit}>
           <TextField type="text" value={this.state.value} color="primary" label="日本語" onChange={this.handleChange} />
           <Button type="submit" className="get-speech-button" variant="contained" color="primary" >
@@ -44,14 +47,6 @@ class Form extends React.Component {
       </div>
     );
   }
-}
-
-function App() {
-  return (
-    <div className="app">
-      <Form />
-    </div>
-  );
 }
 
 ReactDOM.render(<App />, document.querySelector('#root'));
