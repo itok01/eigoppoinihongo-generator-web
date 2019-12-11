@@ -1,0 +1,28 @@
+body {
+    margin: 0;
+}
+
+.title {
+    flex-grow: 1;
+}
+
+.content {
+    margin: 2em;
+    margin-bottom: 52vh;
+}
+
+.content > * {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.share-button {
+    cursor: pointer;
+    margin: 4px;
+    display: inline-block;
+}
+
+footer {
+    margin-top: auto;
+    background-color: #607D8B;
+}

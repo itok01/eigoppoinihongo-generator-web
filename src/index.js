@@ -1,17 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import qs from 'qs';
+
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Container from '@material-ui/core/Container';
+import Link from '@material-ui/core/Link';
+import IconButton from '@material-ui/core/IconButton';
+import GitHubIcon from '@material-ui/icons/GitHub';
+import {
+  TwitterShareButton,
+  TwitterIcon
+} from 'react-share';
 
+import './index.css';
+
+const description = "テキストフォームに日本語を入力し、変換ボタンを押すと入力した日本語を英語っぽくした音声を生成します。"
+const title = "英語っぽい日本語ジェネレータ";
+const gitHubUrl = "https://github.com/itok01/eigoppoinihongo-generator";
 
 const apiServer = "https://api.enja.itok01.com";
 const apiSpeech = apiServer + "/speech";
 
-class App extends React.Component {
+class Content extends React.Component {
   constructor(props) {
     super(props);
 
@@ -51,20 +68,75 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="app">
+      <div className="content">
+        <p>{description}</p>
+
         <form onSubmit={this.handleSubmit}>
-          <TextField type="text" value={this.state.text} color="primary" label="日本語" onChange={this.handleTextChange} />
+          <TextField type="text" value={this.state.text} color="primary" label="変換したい日本語" fullWidth multiline variant="outlined" onChange={this.handleTextChange} />
+          <RadioGroup aria-label="gender" name="gender1" value={this.state.gender} onChange={this.handleGenderChange}>
+            <FormControlLabel value="female" control={<Radio />} label="女" />
+            <FormControlLabel value="male" control={<Radio />} label="男" />
+          </RadioGroup>
           <Button type="submit" className="get-speech-button" variant="contained" color="primary" >
             変換
           </Button>
-          <RadioGroup aria-label="gender" name="gender1" value={this.state.gender} onChange={this.handleGenderChange}>
-            <FormControlLabel value="female" control={<Radio />} label="Female" />
-            <FormControlLabel value="male" control={<Radio />} label="Male" />
-          </RadioGroup>
         </form>
         <audio controls ref="speech">
           <source src={this.state.source} type="audio/mp3" />
         </audio>
+        <div className="buttons">
+          <TwitterShareButton title="#英語っぽい日本語ジェネレータ" url={"https://enja.itok01.com/?text=" + this.state.text + "&gender=" + this.state.gender} className="share-button">
+            <TwitterIcon size={32} round />
+          </TwitterShareButton>
+        </div>
+      </div>
+    );
+  }
+}
+
+class Footer extends React.Component {
+  render() {
+    return (
+      <footer className="footer">
+        <Container>
+          <Typography variant="body1">{title}</Typography>
+          <Typography variant="body2" color="textSecondary">
+            {'Copyright © '}
+            <Link color="inherit" href="https://www.itok01.com/">
+              itok01
+            </Link>
+            {' '}
+            {new Date().getFullYear()}
+            {'.'}
+          </Typography>
+        </Container>
+      </footer>
+    )
+  }
+}
+
+class App extends React.Component {
+  handleOpenGitHub() {
+
+  }
+
+  render() {
+    return (
+      <div className="app">
+        <AppBar position="static">
+          <Toolbar>
+            <Typography className="title" variant="h6">
+              {title}
+            </Typography>
+            <IconButton edge="end" color="inherit" onClick={() => window.open(gitHubUrl, "_blank")}>
+              <GitHubIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+
+        <Content />
+
+        <Footer />
       </div>
     );
   }
