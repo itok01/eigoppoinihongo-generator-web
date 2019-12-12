@@ -85,7 +85,7 @@ class Content extends React.Component {
           <source src={this.state.source} type="audio/mp3" />
         </audio>
         <div className="buttons">
-          <TwitterShareButton title="#英語っぽい日本語ジェネレータ" url={"https://enja.itok01.com/?text=" + this.state.text + "&gender=" + this.state.gender} className="share-button">
+          <TwitterShareButton title="#英語っぽい日本語ジェネレータ" url={encodeURI("https://enja.itok01.com/?text=" + this.state.text + "&gender=" + this.state.gender)} className="share-button">
             <TwitterIcon size={32} round />
           </TwitterShareButton>
         </div>
